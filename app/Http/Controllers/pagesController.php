@@ -31,19 +31,35 @@ class pagesController extends Controller
         (SELECT COUNT(*) FROM plan_list WHERE plan_status = 3 AND plan_hos = $hcode) AS 'approve'";
 
         $count = DB::select($query_count);
-
-        $data = DB::table('plan_list')
-                ->leftjoin('plan_budget','plan_budget.budget_id','plan_list.plan_budget_id')
-                ->leftjoin('p_status','p_status.p_status_id','plan_list.plan_status')
+        $chart = DB::table('plan_budget')
+                ->select('budget_name',DB::raw('SUM(plan_total) AS total'))
+                ->leftjoin('plan_list','plan_list.plan_budget_id','plan_budget.budget_id')
                 ->where('plan_hos',$hcode)
+                ->groupBy('budget_name')
+                ->orderBy('total','DESC')
                 ->get();
-        $budget = DB::table('plan_budget')->get();
         return view('hospital.index',
         [
             'count' => $count,
-            'data' => $data,
-            'budget' => $budget,
+            'chart' => $chart,
         ]);
+    }
+
+    public function plan()
+    {
+        $hcode = Auth::user()->hcode;
+        $data = DB::table('plan_list')
+            ->leftjoin('plan_budget','plan_budget.budget_id','plan_list.plan_budget_id')
+            ->leftjoin('p_status','p_status.p_status_id','plan_list.plan_status')
+            ->where('plan_hos',$hcode)
+            ->get();
+        $budget = DB::table('plan_budget')->get();
+        return view('hospital.list',
+            [
+                'data'=>$data,
+                'budget'=>$budget,
+            ]
+        );
     }
 
     public function store(Request $request)
@@ -68,6 +84,8 @@ class pagesController extends Controller
             'uuid' => Str::uuid()->toString(),
             'plan_hos'=>$hcode,
             'plan_name'=>$request->plan_name,
+            'plan_doc_no'=>$request->plan_doc_no,
+            'plan_doc_date'=>$request->plan_doc_date,
             'plan_budget_id'=>$request->plan_budget_id,
             'plan_total'=>$request->plan_total,
             'create_at'=>$currentDate
@@ -86,11 +104,15 @@ class pagesController extends Controller
                 'plan_name' => 'required',
                 'plan_budget_id' => 'required',
                 'plan_total' => 'required',
+                'plan_doc_no' => 'required',
+                'plan_doc_date' => 'required',
             ],
             [
                 'plan_name.required' => 'ระบุชื่อแผนงานโครงการ',
                 'plan_budget_id.required' => 'ระบุแหล่งงบประมาณ',
                 'plan_total.required' => 'ระบุจำนวนเงิน',
+                'plan_doc_no.required' => 'ระบุเลขที่หนังสือ',
+                'plan_doc_date.required' => 'ระบุวันที่หนังสือ',
             ],
         );
 
@@ -99,6 +121,8 @@ class pagesController extends Controller
             'plan_name'=>$request->plan_name,
             'plan_budget_id'=>$request->plan_budget_id,
             'plan_total'=>$request->plan_total,
+            'plan_doc_date'=>$request->plan_doc_date,
+            'plan_doc_no'=>$request->plan_doc_no,
             'update_at'=>$currentDate
         ]);
 

@@ -6,7 +6,7 @@
             <div class="row mb-2">
                 <div class="col-sm-12">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">ข้อมูลผู้ใช้งาน</li>
+                        <li class="breadcrumb-item active">ข้อมูลหน่วยบริการ</li>
                     </ol>
                 </div>
             </div>
@@ -28,26 +28,22 @@
                             <table id="list_table" class="table table-striped table-borderless table-bordered nowrap" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">ID</th>
-                                        <th class="">ชื่อผู้ใช้งาน</th>
-                                        <th class="">บัญชีผู้ใช้งาน</th>
+                                        <th class="text-center">#</th>
                                         <th class="text-center">รหัสหน่วยบริการ</th>
-                                        <th class="">หน่วยบริการ</th>
-                                        <th class="text-center">สิทธิการใช้งาน</th>
+                                        <th class="">ชื่อหน่วยบริการ</th>
+                                        <th class="text-center">ประเภทหน่วยบริการ</th>
                                         <th class="text-center"><i class="fa-solid fa-bars"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($data as $rs)
                                         <tr>
-                                            <td class="text-center">{{ $rs->id }}</td>
-                                            <td class="">{{ $rs->name }}</td>
-                                            <td class="">{{ $rs->email }}</td>
-                                            <td class="text-center">{{ $rs->hcode }}</td>
+                                            <td class="text-center">{{ $rs->h_id }}</td>
+                                            <td class="text-center">{{ $rs->h_code }}</td>
                                             <td class="">{{ $rs->h_name }}</td>
-                                            <td class="text-center">{{ $rs->role_name }}</td>
+                                            <td class="text-center">{{ $rs->h_type_name }}</td>
                                             <td class="text-center">
-                                                <a href="{{ route('cmpho.user.show',$rs->uuid) }}" class="btn btn-xs btn-info">
+                                                <a href="{{ route('cmpho.hospital.show',$rs->h_id) }}" class="btn btn-xs btn-info">
                                                     <i class="fa-solid fa-search"></i>
                                                     รายละเอียด
                                                 </a>
@@ -64,9 +60,6 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -78,55 +71,33 @@
     </section>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="addUserLabel" aria-hidden="true">
+<div class="modal fade" id="addHospital" tabindex="-1" aria-labelledby="addHospitalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form action="{{ route('cmpho.user.store') }}" method="POST">
+        <form action="{{ route('cmpho.hospital.store') }}" method="POST">
             @csrf
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addUserLabel">
+                    <h5 class="modal-title" id="addHospitalLabel">
                         <i class="fa-solid fa-user-plus text-primary"></i>
-                        เพิ่มผู้ใช้งาน
+                        เพิ่มหน่วยบริการ
                     </h5>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="">ชื่อผู้ใช้งาน</label>
-                        <input type="text" name="name" class="form-control" placeholder="ชื่อผู้ใช้งาน">
+                        <label for="">รหัสหน่วยบริการ</label>
+                        <input type="text" name="h_code" class="form-control" placeholder="รหัสหน่วยบริการ">
                     </div>
                     <div class="form-group">
-                        <label for="">บัญชีผู้ใช้งาน</label>
-                        <input type="email" name="email" class="form-control" placeholder="ชื่อหน่วยบริการ@รหัสหน่วยบริการ">
+                        <label for="">ชื่อหน่วยบริการ</label>
+                        <input type="text" name="h_name" class="form-control" placeholder="ชื่อหน่วยบริการ">
                     </div>
                     <div class="form-group">
-                        <label for="">หน่วยงาน</label>
-                        <select name="department" class="single-select">
+                        <label for="">ประเภทหน่วยบริการ</label>
+                        <select name="h_type" class="single-select">
                             <option></option>
-                            @foreach ($dept as $rs)
-                            <option value="{{ $rs->dept_id }}">
-                                {{ $rs->dept_name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">หน่วยบริการ</label>
-                        <select name="hcode" class="single-select">
-                            <option></option>
-                            @foreach ($hosp as $rs)
-                            <option value="{{ $rs->h_code }}">
-                                {{ $rs->h_code." - ".$rs->h_name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">สิทธิการใช้งาน</label>
-                        <select name="role" class="single-select">
-                            <option></option>
-                            @foreach ($role as $rs)
-                            <option value="{{ $rs->role_id }}">
-                                {{ $rs->role_name }}
+                            @foreach ($type as $rs)
+                            <option value="{{ $rs->h_type_id }}">
+                                {{ $rs->h_type_name }}
                             </option>
                             @endforeach
                         </select>
@@ -138,10 +109,9 @@
                     onclick="
                         Swal.fire({
                             icon: 'question',
-                            title: 'ยืนยันเพิ่มผู้ใช้งานระบบ ?',
-                            text: 'รหัสผ่านเริ่มต้น = รหัสหน่วยบริการ',
+                            title: 'ยืนยันเพิ่มหน่วยบริการ ?',
                             showCancelButton: true,
-                            confirmButtonText: 'เพิ่มผู้ใช้งานระบบ',
+                            confirmButtonText: 'เพิ่มหน่วยบริการระบบ',
                             cancelButtonText: 'ยกเลิก',
                             }).then((result) => {
                                 if (result.isConfirmed) {
@@ -166,7 +136,7 @@
         $('.single-select').select2({
             width: '100%',
             placeholder: 'กรุณาเลือกข้อมูล',
-            dropdownParent: $("#addUser")
+            dropdownParent: $("#addHospital")
         });
     });
 
@@ -175,14 +145,15 @@
             width: '100%',
         });
     });
+
     new DataTable('#list_table', {
         layout: {
             topStart: {
                 buttons: [
                     {
-                        text: '<i class="fa-solid fa-user-plus text-primary"></i> เพิ่มผู้ใช้งาน',
+                        text: '<i class="fa-solid fa-plus-circle text-primary"></i> เพิ่มหน่วยบริการ',
                         action: function (e, dt, node, config) {
-                            $('#addUser').modal('show')
+                            $('#addHospital').modal('show')
                         }
                     },
                 ]
@@ -211,7 +182,7 @@
         },
         initComplete: function () {
             this.api()
-            .columns([3,4,5])
+            .columns([3])
             .every(function () {
                 var column = this;
                 var select = $(

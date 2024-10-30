@@ -20,7 +20,14 @@
                     <a href="{{ route('cmpho.user.index') }}"
                         class="nav-link {{ request()->is('cmpho/users*') ? 'active':'' }}">
                         <i class="nav-icon fa-solid fa-user-cog"></i>
-                        จัดการผู้ใช้งาน
+                        ข้อมูลผู้ใช้งาน
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('cmpho.hospital.index') }}"
+                        class="nav-link {{ request()->is('cmpho/hospital*') ? 'active':'' }}">
+                        <i class="nav-icon fa-solid fa-hospital"></i>
+                        ข้อมูลหน่วยบริการ
                     </a>
                 </li>
                 <li class="nav-item">

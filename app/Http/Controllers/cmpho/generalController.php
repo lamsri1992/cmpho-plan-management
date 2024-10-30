@@ -35,22 +35,22 @@ class generalController extends Controller
     public function update(string $id, Request $request)
     {
         $currentDate = date('Y-m-d H:i:s');
-        $validatedData = $request->validate(
-            [
-                'plan_doc_no' => 'required',
-                'plan_doc_date' => 'required',
-                'plan_receive' => 'required',
-            ],
-            [
-                'plan_doc_no.required' => 'ระบุเลขที่หนังสือ',
-                'plan_doc_date.required' => 'ระบุวันที่หนังสือ',
-                'plan_receive.required' => 'ระบุผู้รับเข้าแผนงานโครงการ',
-            ],
-        );
+        // $validatedData = $request->validate(
+        //     [
+        //         'plan_doc_no' => 'required',
+        //         'plan_doc_date' => 'required',
+        //         'plan_receive' => 'required',
+        //     ],
+        //     [
+        //         'plan_doc_no.required' => 'ระบุเลขที่หนังสือ',
+        //         'plan_doc_date.required' => 'ระบุวันที่หนังสือ',
+        //         'plan_receive.required' => 'ระบุผู้รับเข้าแผนงานโครงการ',
+        //     ],
+        // );
 
         DB::table('plan_list')->where('uuid',$id)->update([
-            'plan_doc_date'=>$request->plan_doc_date,
-            'plan_doc_no'=>$request->plan_doc_no,
+            // 'plan_doc_date'=>$request->plan_doc_date,
+            // 'plan_doc_no'=>$request->plan_doc_no,
             'plan_receive'=>$request->plan_receive,
             'plan_receive_date'=>$currentDate,
             'plan_status'=>2
@@ -108,7 +108,7 @@ class generalController extends Controller
                 ->join('departments','dept_id','log_dept_id')
                 ->leftjoin('plan_log_status','plan_log_status.status_id','plan_log.log_status_id')
                 ->where('log_plan_id',$id)
-                ->orderBy('create_at','DESC')
+                ->orderBy('log_plan_id','ASC')
                 ->get();
 
         $logs = DB::table('plan_log_status')->get();

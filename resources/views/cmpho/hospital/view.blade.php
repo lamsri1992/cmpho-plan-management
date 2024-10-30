@@ -7,11 +7,11 @@
                 <div class="col-sm-12">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
-                            <a href="{{ route('cmpho.user.index') }}">
-                                จัดการผู้ใช้งาน
+                            <a href="{{ route('cmpho.hospital.index') }}">
+                                ข้อมูลหน่วยบริการ
                             </a>
                         </li>
-                        <li class="breadcrumb-item active">{{ $data->uuid }}</li>
+                        <li class="breadcrumb-item active">{{ $data->h_code }}</li>
                     </ol>
                 </div>
             </div>
@@ -26,56 +26,32 @@
                         <div class="card-header">
                             <h5 class="card-title">
                                 <i class="fa-solid fa-user-edit"></i>
-                                {{ $data->name }}
+                                {{ $data->h_name }}
                             </h5>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('cmpho.user.update',$data->uuid) }}"
+                            <form action="{{ route('cmpho.hospital.update',$data->h_id) }}"
                                 method="POST">
                                 @csrf
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="">ชื่อผู้ใช้งาน</label>
-                                        <input type="text" name="name" class="form-control" placeholder="ชื่อผู้ใช้งาน"
-                                            value="{{ $data->name }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">บัญชีผู้ใช้งาน</label>
-                                        <input type="email" name="email" class="form-control"
-                                            placeholder="ชื่อหน่วยบริการ@รหัสหน่วยบริการ" value="{{ $data->email }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">หน่วยงาน</label>
-                                        <select name="department" class="single-select">
-                                            <option></option>
-                                            @foreach($dept as $rs)
-                                                <option value="{{ $rs->dept_id }}"
-                                                    {{ $data->department_id == $rs->dept_id ? 'SELECTED':'' }}>
-                                                    {{ $rs->dept_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <label for="">รหัสหน่วยบริการ</label>
+                                        <input type="text" name="h_code" class="form-control" placeholder="รหัสหน่วยบริการ"
+                                            value="{{ $data->h_code }}">
                                     </div>
                                     <div class="form-group">
                                         <label for="">หน่วยบริการ</label>
-                                        <select name="hcode" class="single-select">
-                                            <option></option>
-                                            @foreach($hosp as $rs)
-                                                <option value="{{ $rs->h_code }}"
-                                                    {{ $data->hcode == $rs->h_code ? 'SELECTED':'' }}>
-                                                    {{ $rs->h_code." - ".$rs->h_name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <input type="text" name="h_name" class="form-control"
+                                            placeholder="ชื่อหน่วยบริการ" value="{{ $data->h_name }}">
                                     </div>
                                     <div class="form-group">
-                                        <label for="">สิทธิการใช้งาน</label>
-                                        <select name="role" class="single-select">
+                                        <label for="">ประเภทหน่วยบริการ</label>
+                                        <select name="h_type" class="single-select">
                                             <option></option>
-                                            @foreach($role as $rs)
-                                                <option value="{{ $rs->role_id }}"
-                                                    {{ $data->role == $rs->role_id ? 'SELECTED':'' }}>
-                                                    {{ $rs->role_name }}
+                                            @foreach($type as $rs)
+                                                <option value="{{ $rs->h_type_id }}"
+                                                    {{ $data->h_type == $rs->h_type_id ? 'SELECTED':'' }}>
+                                                    {{ $rs->h_type_name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -85,8 +61,8 @@
                                     <button type="button" class="btn btn-success" onclick="
                                             Swal.fire({
                                                 icon: 'question',
-                                                title: 'แก้ไขข้อมูลผู้ใช้งานระบบ ?',
-                                                text: '{{ $data->uuid }}',
+                                                title: 'แก้ไขข้อมูลหน่วยบริการ ?',
+                                                text: '{{ $data->h_name }}',
                                                 showCancelButton: true,
                                                 confirmButtonText: 'แก้ไขข้อมูล',
                                                 cancelButtonText: 'ยกเลิก',

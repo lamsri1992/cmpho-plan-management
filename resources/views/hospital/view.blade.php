@@ -7,8 +7,10 @@
                 <div class="col-sm-12">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
-                            <i class="far fa-folder-open"></i> 
-                            แผนงานโครงการ
+                            <a href="{{ route('plan.list') }}">
+                                <i class="fa-solid fa-folder-open"></i> 
+                                แผนงานโครงการ
+                            </a>
                         </li>
                         <li class="breadcrumb-item active">
                             {{ $data->plan_name }}
@@ -69,14 +71,13 @@
                                             <input type="text" class="form-control" name="plan_total" value="{{ $data->plan_total }}">
                                         </div>
                                     </div>
-                                    @if ($data->plan_status != 1)
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>
                                                 <i class="far fa-file-alt"></i>
                                                 เลขที่หนังสือ
                                             </label>
-                                            <input type="text" class="form-control" value="{{ $data->plan_doc_no }}" @readonly(true)>
+                                            <input type="text" name="plan_doc_no" class="form-control" value="{{ $data->plan_doc_no }}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -85,7 +86,7 @@
                                                 <i class="far fa-calendar-check"></i>
                                                 ลงวันที่
                                             </label>
-                                            <input type="text" class="form-control" value="{{ date("d/m/Y", strtotime($data->plan_doc_date)) }}" @readonly(true)>
+                                            <input type="text" name="plan_doc_date" class="form-control pickr" value="{{ $data->plan_doc_date }}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -97,7 +98,6 @@
                                             <input type="text" class="form-control" value="{{ $data->plan_receive }}" @readonly(true)>
                                         </div>
                                     </div>
-                                    @endif
                                     @if ($data->plan_status == 3)
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -210,5 +210,9 @@
 </div>
 @endsection
 @section('script')
-
+<script>
+    flatpickr('.pickr', {
+        "locale": "th"
+    });
+</script>
 @endsection

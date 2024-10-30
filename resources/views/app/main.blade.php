@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CMPHO - PLAN : ระบบบริหารจัดการแผนงานโครงการ สำนักงานสาธารณสุขจังหวัดเชียงใหม่</title>
+    <title>CMPHO - PLAN : ระบบสืบค้นข้อมูล และติดตามแผนงานโครงการ สำนักงานสาธารณสุขจังหวัดเชียงใหม่</title>
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/f97e59eabd.js" crossorigin="anonymous"></script>
     <!-- Theme style -->
