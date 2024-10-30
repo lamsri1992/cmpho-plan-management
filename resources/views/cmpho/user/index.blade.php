@@ -31,7 +31,6 @@
                                         <th class="text-center">ID</th>
                                         <th class="">ชื่อผู้ใช้งาน</th>
                                         <th class="">บัญชีผู้ใช้งาน</th>
-                                        <th class="text-center">รหัสหน่วยบริการ</th>
                                         <th class="">หน่วยบริการ</th>
                                         <th class="text-center">สิทธิการใช้งาน</th>
                                         <th class="text-center"><i class="fa-solid fa-bars"></i></th>
@@ -43,8 +42,7 @@
                                             <td class="text-center">{{ $rs->id }}</td>
                                             <td class="">{{ $rs->name }}</td>
                                             <td class="">{{ $rs->email }}</td>
-                                            <td class="text-center">{{ $rs->hcode }}</td>
-                                            <td class="">{{ $rs->h_name }}</td>
+                                            <td class="">{{ $rs->hcode." : ".$rs->h_name }}</td>
                                             <td class="text-center">{{ $rs->role_name }}</td>
                                             <td class="text-center">
                                                 <a href="{{ route('cmpho.user.show',$rs->uuid) }}" class="btn btn-xs btn-info">
@@ -61,7 +59,6 @@
                                             <i class="fa-solid fa-filter"></i>
                                             Filter
                                         </td>
-                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -211,7 +208,7 @@
         },
         initComplete: function () {
             this.api()
-            .columns([3,4,5])
+            .columns([3,4])
             .every(function () {
                 var column = this;
                 var select = $(
