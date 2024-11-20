@@ -42,7 +42,7 @@
                                         <td class="text-center">{{ date("d/m/Y", strtotime($rs->create_at)) }}</td>
                                         <td class="">{{ $rs->plan_name }}</td>
                                         <td class="text-center">{{ $rs->budget_name }}</td>
-                                        <td class="text-right">{{ number_format($rs->plan_total,2)." ฿" }}</td>
+                                        <td class="text-right">{{ number_format($rs->plan_total,2) }}</td>
                                         <td class="text-center {{ $rs->p_status_color }}">
                                             {{-- <span class="{{ $rs->p_status_color }}">
                                                 {!! $rs->p_status_icon !!}
@@ -98,7 +98,7 @@
                             <input type="text" name="plan_name" class="form-control" placeholder="กรุณาระบุชื่อแผนงานโครงการ">
                         </div>
                         <div class="form-group col-md-6">
-                            <label>เลขที่หนังสือ</label>
+                            <label>เลขที่หนังสือส่ง</label>
                             <input type="text" name="plan_doc_no" class="form-control" placeholder="กรุณาระบุเลขที่หนังสือ">
                         </div>
                         <div class="form-group col-md-6">

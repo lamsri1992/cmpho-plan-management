@@ -31,6 +31,20 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('cmpho.department.index') }}"
+                        class="nav-link {{ request()->is('cmpho/department*') ? 'active':'' }}">
+                        <i class="nav-icon fa-solid fa-sitemap"></i>
+                        ข้อมูลกลุ่มงาน สสจ.
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('cmpho.budget.index') }}"
+                        class="nav-link {{ request()->is('cmpho/budget*') ? 'active':'' }}">
+                        <i class="nav-icon fa-solid fa-comments-dollar"></i>
+                        ข้อมูลแหล่งงบประมาณ
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fa-solid fa-book"></i>
                         คู่มือการใช้งาน

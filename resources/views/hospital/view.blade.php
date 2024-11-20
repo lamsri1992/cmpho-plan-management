@@ -27,10 +27,20 @@
                 <div class="col-lg-12">
                     <div class="card card-info card-outline">
                         <div class="card-header">
-                            <h5 class="card-title">
-                                <i class="fa-regular fa-clipboard"></i>
-                                ข้อมูลแผนงานโครงการ
-                            </h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 class="card-title">
+                                        <i class="fa-regular fa-clipboard"></i>
+                                        ข้อมูลแผนงานโครงการ
+                                    </h5>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <span class="{{ $data->p_status_color }}">
+                                        {!! $data->p_status_icon !!}
+                                    </span>
+                                    {{ $data->p_status_name }}
+                                </div>
+                            </div>
                         </div>
                         <form action="{{ route('plan.update',$data->uuid) }}" method="POST">
                             @csrf
@@ -202,6 +212,33 @@
                         </div>
                         @endforeach
                     </div>
+                    @if ($data->plan_status == 4)
+                    <form action="{{ route('plan.update.log',$data->uuid) }}" method="POST">
+                        @csrf
+                        <div class="col-md-12 mt-4 text-center">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-warning"
+                                onclick="
+                                Swal.fire({
+                                    icon: 'question',
+                                    title: 'ยืนยันการแก้ไขแผนงานโครงการ ?',
+                                    text: 'ดำเนินการเมื่อทำการส่งเอกสารแก้ไขไปยัง สสจ. เท่านั้น',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'ยืนยัน',
+                                    cancelButtonText: 'ยกเลิก',
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            form.submit()
+                                        }
+                                    });
+                                    ">
+                                    <i class="fa-solid fa-share-from-square"></i>
+                                    ส่งแก้ไขแผนงานโครงการ
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    @endif
                 </div>
             </div>
             @endif
@@ -210,6 +247,15 @@
 </div>
 @endsection
 @section('script')
+@if ($data->plan_status == 4)
+    <script>
+        Swal.fire({
+            title: "แผนงานโครงการถูกส่งกลับแก้ไข",
+            text: "กรุณาแก้ไขแผนงานโครงการแล้วนำส่งอีกครั้ง",
+            icon: "warning",
+        });
+    </script>
+@endif
 <script>
     flatpickr('.pickr', {
         "locale": "th"

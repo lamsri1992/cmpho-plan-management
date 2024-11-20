@@ -5,6 +5,7 @@ use App\Http\Controllers\pagesController;
 use App\Http\Controllers\cmpho\generalController;
 use App\Http\Controllers\cmpho\userController;
 use App\Http\Controllers\cmpho\hospitalController;
+use App\Http\Controllers\cmpho\departmentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [pagesController::class, 'index'])->middleware(['auth', 'verified'])->name('index');

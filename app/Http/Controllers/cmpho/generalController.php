@@ -15,8 +15,9 @@ class generalController extends Controller
         $query_count = "SELECT
         (SELECT COUNT(*) FROM `plan_list`) AS total,
         (SELECT COUNT(*) FROM `plan_list` WHERE plan_status = 1) AS 'wait',
-        (SELECT COUNT(*) FROM `plan_list` WHERE plan_status = 2) AS 'progress',
-        (SELECT COUNT(*) FROM `plan_list` WHERE plan_status = 3) AS 'approve'";
+        (SELECT COUNT(*) FROM `plan_list` WHERE plan_status IN (2,5)) AS 'progress',
+        (SELECT COUNT(*) FROM `plan_list` WHERE plan_status = 3) AS 'approve',
+        (SELECT COUNT(*) FROM `plan_list` WHERE plan_status = 4) AS 'edit'";
 
         $count = DB::select($query_count);
         
@@ -92,6 +93,13 @@ class generalController extends Controller
             'create_at' => $currentDate
         ]);
 
+        if($request->plan_log_status == 3)
+        {
+            DB::table('plan_list')->where('uuid',$id)->update([
+                'plan_status' => 4,
+            ]);
+        }
+
         return back()->with('success', 'บันทึกการดำเนินการสำเร็จ');
     }
 
@@ -112,7 +120,7 @@ class generalController extends Controller
                 ->get();
 
         $logs = DB::table('plan_log_status')->get();
-        $dept = DB::table('departments')->get();
+        $dept = DB::table('departments')->where('dept_approve',1)->get();
         $budget = DB::table('plan_budget')->get();
         $check = DB::table('plan_log')
                 ->where('log_plan_id',$id)

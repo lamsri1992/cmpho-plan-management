@@ -8,6 +8,8 @@
     <script src="https://kit.fontawesome.com/f97e59eabd.js" crossorigin="anonymous"></script>
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('template/dist/css/adminlte.min.css') }}">
+    <!-- Toggle -->
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
     <!-- Font Google -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
     <!-- Select 2 -->
@@ -87,6 +89,8 @@
     <!-- ChartJS -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" charset="utf8" src="{{ asset('preload/preload.js') }}"></script>
+    <!-- Toggle -->
+    <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
     {{-- flatpickr(myElement, {
         "locale": "ru"  // locale for this instance only

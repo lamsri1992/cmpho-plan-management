@@ -17,7 +17,7 @@
         <div class="container-fluid">
             <div class="row">
                 @foreach ($count as $rs)
-                <div class="col-lg-3 col-3">
+                <div class="col-lg-3 col-6">
                     <div class="small-box bg-info">
                         <div class="inner">
                             <h3>{{ number_format($rs->total) }}</h3>
@@ -28,7 +28,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-3">
+                <div class="col-lg-3 col-6">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>{{ number_format($rs->approve) }}</h3>
+                            <p>อนุมัติแล้ว</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa-regular fa-check-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6">
                     <div class="small-box bg-secondary">
                         <div class="inner">
                             <h3>{{ number_format($rs->wait) }}</h3>
@@ -39,7 +50,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-3">
+                <div class="col-lg-2 col-6">
                     <div class="small-box bg-primary">
                         <div class="inner">
                             <h3>{{ number_format($rs->progress) }}</h3>
@@ -50,14 +61,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-3">
-                    <div class="small-box bg-success">
+                <div class="col-lg-2 col-6">
+                    <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>{{ number_format($rs->approve) }}</h3>
-                            <p>อนุมัติแล้ว</p>
+                            <h3>{{ number_format($rs->edit) }}</h3>
+                            <p>รอแก้ไข</p>
                         </div>
                         <div class="icon">
-                            <i class="fa-regular fa-check-circle"></i>
+                            <i class="fa-regular fa-edit"></i>
                         </div>
                     </div>
                 </div>
@@ -99,9 +110,6 @@
                                         <td class="text-center">{{ $rs->budget_name }}</td>
                                         <td class="text-right">{{ number_format($rs->plan_total,2) }}</td>
                                         <td class="text-center {{ $rs->p_status_color }}">
-                                            {{-- <span class="{{ $rs->p_status_color }}">
-                                                {!! $rs->p_status_icon !!}
-                                            </span> --}}
                                             {{ $rs->p_status_name }}
                                         </td>
                                         <td class="text-center">

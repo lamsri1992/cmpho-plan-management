@@ -20,8 +20,8 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title">
-                                <i class="fa-regular fa-clipboard"></i>
-                                แผนงานโครงการ
+                                <i class="fa-solid fa-hospital"></i>
+                                ข้อมูลหน่วยบริการ
                             </h5>
                         </div>
                         <div class="card-body">

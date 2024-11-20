@@ -221,7 +221,8 @@
                     @if ($check == 0)
                     <div class="col-md-12 mt-4 text-center">
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#process">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#process"
+                                {{ $data->plan_status == 4 ? 'disabled':'' }}>
                                 <i class="fa-solid fa-check-square"></i>
                                 ดำเนินการ
                             </button>
@@ -361,6 +362,17 @@
 </div>  
 @endsection
 @section('script')
+@if ($data->plan_status == 4)
+    <script>
+        Swal.fire({
+            title: "รอดำเนินการ",
+            text: "รอหน่วยบริการแก้ไขแผนงานโครงการ",
+            icon: "warning",
+            allowOutsideClick: false,
+            allowEscapeKey: false 
+        });
+    </script>
+@endif
 <script>
    flatpickr('.pickr', {
         "locale": "th"
