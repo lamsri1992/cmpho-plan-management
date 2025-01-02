@@ -164,11 +164,11 @@
             [10, 25, 50, -1],
             [10, 25, 50, "All"]
         ],
-        responsive: true,
-        // scrollX: true,
-        rowReorder: {
-            selector: 'td:nth-child(2)'
-        },
+        // responsive: true,
+        scrollX: true,
+        // rowReorder: {
+        //     selector: 'td:nth-child(2)'
+        // },
         oLanguage: {
             oPaginate: {
                 sFirst: '<small>หน้าแรก</small>',
