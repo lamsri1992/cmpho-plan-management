@@ -143,15 +143,102 @@
         </div>
     </section>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="addPlan" tabindex="-1" aria-labelledby="addPlanLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <form action="{{ route('cmpho.store') }}" method="POST">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addPlanLabel">
+                        <i class="fa-solid fa-plus-circle text-success"></i>
+                        สร้างแผนงานโครงการ
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label>หน่วยบริการ</label>
+                            <select name="plan_hos" class="single-select">
+                                <option></option>
+                                @foreach ($hospital as $rs)
+                                <option value="{{ $rs->h_code }}">
+                                    {{ $rs->h_code." : ".$rs->h_name }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>ชื่อโครงการ</label>
+                            <input type="text" name="plan_name" class="form-control" placeholder="กรุณาระบุชื่อแผนงานโครงการ">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>เลขที่หนังสือส่ง</label>
+                            <input type="text" name="plan_doc_no" class="form-control" placeholder="กรุณาระบุเลขที่หนังสือ">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>ลงวันที่</label>
+                            <input type="text" name="plan_doc_date" class="form-control pickr" placeholder="กรุณาระบุลงวันที่หนังสือ">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>แหล่งงบประมาณ</label>
+                            <select name="plan_budget_id" class="single-select">
+                                <option></option>
+                                @foreach ($budget as $rs)
+                                <option value="{{ $rs->budget_id }}">
+                                    {{ $rs->budget_name }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>จำนวนเงิน</label>
+                            <input type="text" name="plan_total" class="form-control" placeholder="ระบุเป็นตัวเลข">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+                    <button type="button" class="btn btn-success"
+                        onclick="
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'ยืนยันการสร้างแผนงานโครงการใหม่ ?',
+                                showCancelButton: true,
+                                confirmButtonText: 'สร้างแผนงานโครงการ',
+                                cancelButtonText: 'ยกเลิก',
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    form.submit()
+                                } else if (result.isDenied) {
+                                    form.clear()
+                            }
+                            });
+                        ">
+                        <i class="fa-regular fa-save"></i>
+                        บันทึกข้อมูล
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection
 @section('script')
 <script>
-    $(document).ready(function() {
-        $('.select2-filter').select2({
-            width: '100%',
-        });
-    });
     new DataTable('#dtFilter', {
+        layout: {
+            topStart: {
+                buttons: [
+                    {
+                        text: '<i class="fa-solid fa-plus-circle text-primary"></i> เพิ่มแผนงานโครงการ',
+                        action: function (e, dt, node, config) {
+                            $('#addPlan').modal('show')
+                        }
+                    },
+                ]
+            }
+        },
         lengthMenu: [
             [10, 25, 50, -1],
             [10, 25, 50, "All"]
@@ -201,5 +288,20 @@
         }
     });
 
+    $(document).ready(function() {
+        $('.select2-filter').select2({
+            width: '100%',
+        });
+
+        $('.single-select').select2({
+            width: '100%',
+            placeholder: 'กรุณาเลือกข้อมูล',
+            dropdownParent: $("#addPlan")
+        });
+    });
+
+    flatpickr('.pickr', {
+        "locale": "th"
+    });
 </script>
 @endsection

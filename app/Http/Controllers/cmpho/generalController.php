@@ -4,6 +4,7 @@ namespace App\Http\Controllers\cmpho;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use DB;
 use Auth;
 use File;
@@ -26,11 +27,51 @@ class generalController extends Controller
                 ->leftjoin('p_status','p_status.p_status_id','plan_list.plan_status')
                 ->leftjoin('hospital','hospital.h_code','plan_list.plan_hos')
                 ->get();
+        $budget = DB::table('plan_budget')->where('budget_status',1)->get();
+        $hospital = DB::table('hospital')->get();
         return view('cmpho.index',
         [
             'count' => $count,
             'data' => $data,
+            'budget' => $budget,
+            'hospital' => $hospital,
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $currentDate = date('Y-m-d H:i:s');
+        $validatedData = $request->validate(
+            [
+                'plan_hos' => 'required',
+                'plan_name' => 'required',
+                'plan_budget_id' => 'required',
+                'plan_total' => 'required',
+                'plan_doc_no' => 'required',
+                'plan_doc_date' => 'required',
+            ],
+            [
+                'plan_hos.required' => 'ระบุหน่วยบริการ',
+                'plan_name.required' => 'ระบุชื่อแผนงานโครงการ',
+                'plan_budget_id.required' => 'ระบุแหล่งงบประมาณ',
+                'plan_total.required' => 'ระบุจำนวนเงิน',
+                'plan_doc_no.required' => 'ระบุเลขที่หนังสือส่ง',
+                'plan_doc_date.required' => 'ระบุลงวันที่',
+            ],
+        );
+
+        DB::table('plan_list')->insert([
+            'uuid' => Str::uuid()->toString(),
+            'plan_hos'=>$request->plan_hos,
+            'plan_name'=>$request->plan_name,
+            'plan_doc_no'=>$request->plan_doc_no,
+            'plan_doc_date'=>$request->plan_doc_date,
+            'plan_budget_id'=>$request->plan_budget_id,
+            'plan_total'=>$request->plan_total,
+            'create_at'=>$currentDate
+        ]);
+
+        return back()->with('success', 'สร้างแผนงานโครงการสำเร็จ - '.$request->plan_name);
     }
 
     public function update(string $id, Request $request)

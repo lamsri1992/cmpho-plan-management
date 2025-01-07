@@ -11,6 +11,7 @@ Route::prefix('cmpho')->group(function () {
     Route::post('update/{id}', [generalController::class, 'update'])->middleware(['auth', 'verified'])->name('cmpho.update');
     Route::post('update/log/{id}', [generalController::class, 'updateLog'])->middleware(['auth', 'verified'])->name('cmpho.update.log');
     Route::post('approve/{id}', [generalController::class, 'approve'])->middleware(['auth', 'verified'])->name('cmpho.approve');
+    Route::post('store', [generalController::class, 'store'])->middleware(['auth', 'verified'])->name('cmpho.store');
 });
 
 Route::prefix('cmpho/users')->group(function () {
